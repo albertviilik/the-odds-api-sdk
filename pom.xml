@@ -9,13 +9,15 @@
     <version>1.0-SNAPSHOT</version>
 
     <name>the-odds-api-sdk</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
+    <url>https://github.com/albertviilik/the-odds-api-sdk</url>
+    <description>Java SDK for The Odds API</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <github.owner>albertviilik</github.owner>
+        <github.repository>the-odds-api-sdk</github.repository>
     </properties>
 
     <dependencies>
@@ -53,6 +55,19 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/${github.owner}/${github.repository}</url>
+        </repository>
+        <snapshotRepository>
+            <id>github</id>
+            <name>GitHub Apache Maven Snapshots</name>
+            <url>https://maven.pkg.github.com/${github.owner}/${github.repository}</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <build>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
