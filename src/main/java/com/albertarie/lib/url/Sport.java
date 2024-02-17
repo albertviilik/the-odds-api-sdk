@@ -61,7 +61,15 @@ public enum Sport {
     SOCCER_UEFA_EUROPA_CONFERENCE_LEAGUE("soccer_uefa_europa_conference_league"),
     SOCCER_UEFA_EUROPA_LEAGUE("soccer_uefa_europa_league");
 
+    private final String sport;
+
     Sport(String sport) {
+        this.sport = sport;
+    }
+
+    @Override
+    public String toString() {
+        return sport;
     }
 }
 

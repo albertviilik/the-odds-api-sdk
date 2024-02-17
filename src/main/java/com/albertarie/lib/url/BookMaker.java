@@ -70,9 +70,11 @@ public enum BookMaker {
     TOPSPORT("topsport", Region.AU),
     UNIBET("unibet", Region.AU);
 
+    private final String bookMaker;
     private final Region region;
 
-    BookMaker(String name, Region region) {
+    BookMaker(String bookMaker, Region region) {
+        this.bookMaker = bookMaker;
         this.region = region;
     }
 
@@ -80,5 +82,14 @@ public enum BookMaker {
         return Arrays.stream(values())
                 .filter(bm -> bm.region == region)
                 .collect(Collectors.toList());
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    @Override
+    public String toString() {
+        return bookMaker;
     }
 }

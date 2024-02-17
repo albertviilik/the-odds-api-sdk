@@ -6,6 +6,14 @@ public enum Region {
     AU("au"),
     EU("eu");
 
+    private final String region;
+
     Region(String region) {
+        this.region = region;
+    }
+
+    @Override
+    public String toString() {
+        return region;
     }
 }

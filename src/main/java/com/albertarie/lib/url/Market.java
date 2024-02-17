@@ -6,6 +6,14 @@ public enum Market {
     TOTALS("totals"),
     OUTRIGHTS("outrights");
 
+    private final String market;
+
     Market(String market) {
+        this.market = market;
+    }
+
+    @Override
+    public String toString() {
+        return market;
     }
 }
