@@ -7,12 +7,16 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This class contains unit tests for the {@link UrlUtils} class.
+ */
 public class UrlUtilsTest {
-    /**
-     * This class is for testing the UrlUtils class and its method buildUrl.
-     * The buildUrl method is used for building a URL by appending the endpoint and parameters to the base URL.
-     */
 
+    /**
+     * Test case for the {@link UrlUtils#buildUrl(String, String, Map)} method.
+     * 
+     * Verifies that the constructed URL is correct based on the provided base URL, endpoint, and parameters.
+     */
     @Test
     public void testBuildUrl() {
         // Initialize necessary variables
@@ -32,6 +36,11 @@ public class UrlUtilsTest {
         Assertions.assertEquals(expected, result);
     }
 
+    /**
+     * Test case for the {@link UrlUtils#formatDateTime(LocalDateTime)} method.
+     * 
+     * Verifies that the method correctly formats a LocalDateTime object into a string representation.
+     */
     @Test
     public void testFormatDateTime() {
         // create a LocalDateTime object

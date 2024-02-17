@@ -13,14 +13,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+
 /**
- * The NetworkServiceTest class contains tests for the NetworkService class.
+ * This class contains unit tests for the {@link NetworkService} class.
  */
 public class NetworkServiceTest {
 
+    
     /**
-     * This test validates that the NetworkService#GET method sends a request to the correct URI.
-     */
+        * Test case for the {@link NetworkService#get(URI, Map)} method with URI parameter.
+        
+        * Verifies that the correct URI is used in the request.
+        *
+        * @throws Exception if an error occurs during the test
+        */
     @Test
     public void testNetworkServiceGet_URI() throws Exception {
         // Arrange
@@ -48,8 +54,13 @@ public class NetworkServiceTest {
         Assertions.assertEquals(uri, actualRequest.uri());
     }
 
+    
     /**
-     * This test validates that the NetworkService#GET method sends a request to the correct URI with the correct headers.
+     * Test case for the {@link NetworkService#get(URI, Map)} method with URI and headers.
+     * 
+     * Verifies that the correct URI and headers are used in the request.
+     *
+     * @throws Exception if an error occurs during the test
      */
     @Test
     public void testNetworkServiceGet_URI_WithHeaders() throws Exception {

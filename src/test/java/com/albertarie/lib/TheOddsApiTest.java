@@ -21,10 +21,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+
 /**
- * Test class for TheOddsApi.
- * We are testing the getSports method to verify correct interaction with the Sports API.
- * Making sure parameters are parse correctly and results are being returned accurately.
+ * This class contains unit tests for the {@link TheOddsApi} class.
  */
 public class TheOddsApiTest {
 
@@ -40,6 +39,11 @@ public class TheOddsApiTest {
         theOddsApi = new TheOddsApi(mockApiKey, mockNetworkService, gson);
     }
 
+    /**
+     * Test case for the {@link TheOddsApi#getSports(boolean)} method.
+     * 
+     * Verifies that the method returns the expected list of sports in the current season.
+     */
     @Test
     public void testGetSportsInSeason() {
         TheOddsApi theOddsApi = Mockito.mock(TheOddsApi.class);
@@ -73,6 +77,13 @@ public class TheOddsApiTest {
         }
     }
 
+    /**
+     * Test case for the {@link TheOddsApi#getOdds(Sport, List, List, DateFormat, OddsFormat, List, List, LocalDateTime, LocalDateTime)} method.
+     * 
+     * Verifies that the method returns the expected list of odds based on the provided parameters.
+     * 
+     * @throws Exception if an error occurs during the test
+     */
     @Test
     public void testGetOdds() throws Exception {
         // Define test parameters
