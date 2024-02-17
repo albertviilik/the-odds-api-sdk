@@ -18,7 +18,7 @@ To use TheOddsApi SDK in your Java project, you can add the following dependency
 
 To use TheOddsApi SDK, you need to have an API key from [TheOddsApi](https://the-odds-api.com). You can sign up for a free account to get an API key.
 
-Here's an example of how to use TheOddsApi SDK to retrieve sports odds data:
+Here's an example of how to use TheOddsApi SDK to retrieve available sports:
 
 ```java
 package com.example;
@@ -31,7 +31,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        TheOddsApi theOddsApi = new TheOddsApi("d00d974e5c027ded425e81128aab35c1");
+        TheOddsApi theOddsApi = new TheOddsApi("d00d974e5c129ded425d81328aab35c1");
 
         List<Sport> sports = new ArrayList<>();
 
@@ -43,6 +43,42 @@ public class Main {
 
         for (Sport sport : sports) {
             System.out.println(sport.key + " - " + sport.title + " - " + sport.description);
+        }
+    }
+}
+```
+
+Here's an example of how to use TheOddsApi SDK to retrieve available odds for a specific sport:
+
+```java
+List<Game> games = new ArrayList<>();
+
+try {
+    games = theOddsApi.getOdds(
+            SOCCER_EPL,
+            List.of(UK),
+            List.of(H2H),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+    );
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+for (Game game : games) {
+    System.out.println(game.id);
+    for (Bookmaker bookmaker : game.bookmakers) {
+        System.out.println(bookmaker.key);
+        for (com.albertarie.lib.data.Market market : bookmaker.markets) {
+            System.out.println(market.key);
+            for (com.albertarie.lib.data.Outcome outcome : market.outcomes) {
+                System.out.println(outcome.name);
+                System.out.println(outcome.price);
+            }
         }
     }
 }
