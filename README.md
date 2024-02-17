@@ -1,5 +1,3 @@
-The Odds Api SDK © 2024 by Albert Viilik, Arie Arya is licensed under CC BY-NC-SA 4.0 
-
 # TheOddsApi SDK
 
 TheOddsApi SDK is a Java library that allows developers to interact with The Odds API offered on [TheOddsApi](https://the-odds-api.com). It provides convenient methods to retrieve sports odds data for various events.
