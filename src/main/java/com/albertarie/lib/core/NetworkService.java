@@ -35,16 +35,16 @@ public class NetworkService {
     }
 
     /**
-     * Sends a GET request to the specified URI with optional headers.
+     * Sends a GET request to the specified URI with the provided headers and returns the response body.
      *
-     * @param uri     The URI to send the request to.
-     * @param headers A Map of headers to include in the request (optional).
-     * @return The response body as a String if the request was successful.
-     * @throws RateLimitException If the request was rate limited.
-     * @throws ApiKeyException    If the API key is invalid or has expired.
-     * @throws RuntimeException    If the request failed for any other reason.
-     * @throws IOException        If an I/O error occurs.
-     * @throws InterruptedException If the thread is interrupted while waiting for the request to complete.
+     * @param uri     the URI to send the GET request to
+     * @param headers the headers to include in the GET request (optional)
+     * @return the response body as a String
+     * @throws RateLimitException   if the request exceeds the rate limit
+     * @throws ApiKeyException      if the API key is invalid or has expired
+     * @throws RuntimeException     if the request fails with a status code other than 200, 401, or 429
+     * @throws IOException          if an I/O error occurs while sending the request
+     * @throws InterruptedException if the thread is interrupted while waiting for the response
      */
     public String get(URI uri, Map<String, String> headers) throws RateLimitException, ApiKeyException, RuntimeException, IOException, InterruptedException {
         logger.debug("Sending GET request to: " + uri.toString());
