@@ -7,7 +7,6 @@ import com.albertarie.lib.url.*;
 import com.albertarie.lib.util.Constants;
 import com.albertarie.lib.util.UrlUtils;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
