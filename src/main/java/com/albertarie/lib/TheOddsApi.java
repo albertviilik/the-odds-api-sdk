@@ -7,6 +7,7 @@ import com.albertarie.lib.url.*;
 import com.albertarie.lib.util.Constants;
 import com.albertarie.lib.util.UrlUtils;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,19 +65,19 @@ public class TheOddsApi {
     public List<Sport> getSports(
             Boolean onlyInSeason
     ) throws Exception {
-        logger.info("Fetching sports data...");
+        logger.debug("Requesting sports available on The Odds API platform...");
 
         Map<String, String> urlParams = defaultParams();
 
         if (onlyInSeason) {
-            logger.info("Retrieving only sports in season");
+            logger.debug("Including a filter to only return sports currently in season...");
             urlParams.put("onlyInSeason", onlyInSeason.toString());
         }
 
         String url = UrlUtils.buildUrl(API_BASE, "", urlParams);
         URI uri = URI.create(url);
 
-        logger.info("Sending request to {}", uri);
+        logger.debug("Calling the Network Service to perform the API call...");
         String response = networkService.get(uri, null);
 
         return List.of(gson.fromJson(response, Sport[].class));
@@ -108,7 +109,7 @@ public class TheOddsApi {
             LocalDateTime commenceTimeFrom,
             LocalDateTime commenceTimeTo
     ) throws Exception {
-        logger.info("Fetching odds data...");
+        logger.info("Fetching odds data from The Odds API...");
 
         if (sport == null) {
             throw new IllegalArgumentException("Sport cannot be null");
@@ -123,30 +124,37 @@ public class TheOddsApi {
         urlParams.put("regions", regions.stream().map(Region::toString).collect(Collectors.joining(",")));
 
         if (markets != null && !markets.isEmpty()) {
+            logger.debug("Including markets filter in the request...");
             urlParams.put("markets", markets.stream().map(Market::toString).collect(Collectors.joining(",")));
         }
 
         if (dateFormat != null) {
+            logger.debug("Including date format parameter in the request...");
             urlParams.put("dateFormat", dateFormat.toString());
         }
 
         if (oddsFormat != null) {
+            logger.debug("Including odds format parameter in the request...");
             urlParams.put("oddsFormat", oddsFormat.toString());
         }
 
         if (eventIds != null && !eventIds.isEmpty()) {
+            logger.debug("Including event ids filter in the request...");
             urlParams.put("eventIds", String.join(",", eventIds));
         }
 
         if (bookmakers != null && !bookmakers.isEmpty()) {
+            logger.debug("Including bookmakers filter in the request...");
             urlParams.put("bookmakers", bookmakers.stream().map(BookMaker::toString).collect(Collectors.joining(",")));
         }
 
         if (commenceTimeFrom != null) {
+            logger.debug("Including commence time from filter in the request...");
             urlParams.put("commenceTimeFrom", UrlUtils.formatDateTime(commenceTimeFrom));
         }
 
         if (commenceTimeTo != null) {
+            logger.debug("Including commence time to filter in the request...");
             urlParams.put("commenceTimeTo", UrlUtils.formatDateTime(commenceTimeTo));
         }
 
@@ -154,7 +162,7 @@ public class TheOddsApi {
         String url = UrlUtils.buildUrl(Constants.API_BASE, endpoint, urlParams);
         URI uri = URI.create(url);
 
-        logger.info("Sending request to {}", uri);
+        logger.debug("Calling the Network Service to perform the API call...");
         String response = networkService.get(uri, null);
 
         return List.of(gson.fromJson(response, Game[].class));

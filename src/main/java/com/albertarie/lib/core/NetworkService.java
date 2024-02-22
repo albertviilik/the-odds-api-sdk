@@ -12,7 +12,6 @@ import java.util.function.Supplier;
 
 /**
  * The NetworkService class provides functionality for sending HTTP GET requests.
- *
  */
 public class NetworkService {
     protected static final Logger logger = LogManager.getLogger();
@@ -25,20 +24,20 @@ public class NetworkService {
     /**
      * Sends a GET request to the specified URI with optional headers.
      *
-     * @param uri      The URI to send the request to.
-     * @param headers  A Map of headers to include in the request (optional).
+     * @param uri     The URI to send the request to.
+     * @param headers A Map of headers to include in the request (optional).
      * @return The response body as a String if the request was successful.
      * @throws Exception if an error occurs during the request.
      */
     public String get(URI uri, Map<String, String> headers) throws Exception {
-        logger.info("Sending GET request to: " + uri.toString());
+        logger.debug("Sending GET request to: " + uri.toString());
 
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder();
         requestBuilder.uri(uri);
         requestBuilder.GET();
 
         if (headers != null) {
-            logger.info("Adding headers to request: " + headers);
+            logger.debug("Adding headers to request: " + headers);
             headers.forEach(requestBuilder::header);
         }
 
@@ -49,7 +48,7 @@ public class NetworkService {
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() >= 200 && response.statusCode() < 300) {
-            logger.info("Request to " + uri + " was successful");
+            logger.debug("Request to " + uri + " was successful");
             return response.body();
         } else {
             logger.error("Request to " + uri + " failed with status code: " + response.statusCode() + " and body: " + response.body());
