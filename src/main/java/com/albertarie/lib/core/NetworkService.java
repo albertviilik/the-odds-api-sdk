@@ -1,8 +1,11 @@
 package com.albertarie.lib.core;
 
+import com.albertarie.lib.exceptions.ApiKeyException;
+import com.albertarie.lib.exceptions.RateLimitException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -15,6 +18,16 @@ import java.util.function.Supplier;
  */
 public class NetworkService {
     protected static final Logger logger = LogManager.getLogger();
+    private static final String API_KEY_ERROR_MESSAGE;
+    private static final String RATE_LIMIT_ERROR_MESSAGE;
+    private static final String OTHER_ERROR_MESSAGE;
+
+    static {
+        API_KEY_ERROR_MESSAGE = "API key is invalid or has expired. Please provide a valid API key.";
+        RATE_LIMIT_ERROR_MESSAGE = "Rate limit exceeded. Please wait before making another request.";
+        OTHER_ERROR_MESSAGE = "Request to %s failed with status code: %d and body: \n%s";
+    }
+
     private final Supplier<HttpClient> httpClientSupplier;
 
     public NetworkService(Supplier<HttpClient> httpClientSupplier) {
@@ -22,14 +35,18 @@ public class NetworkService {
     }
 
     /**
-     * Sends a GET request to the specified URI with optional headers.
+     * Sends a GET request to the specified URI with the provided headers and returns the response body.
      *
-     * @param uri     The URI to send the request to.
-     * @param headers A Map of headers to include in the request (optional).
-     * @return The response body as a String if the request was successful.
-     * @throws Exception if an error occurs during the request.
+     * @param uri     the URI to send the GET request to
+     * @param headers the headers to include in the GET request (optional)
+     * @return the response body as a String
+     * @throws RateLimitException   if the request exceeds the rate limit
+     * @throws ApiKeyException      if the API key is invalid or has expired
+     * @throws RuntimeException     if the request fails with a status code other than 200, 401, or 429
+     * @throws IOException          if an I/O error occurs while sending the request
+     * @throws InterruptedException if the thread is interrupted while waiting for the response
      */
-    public String get(URI uri, Map<String, String> headers) throws Exception {
+    public String get(URI uri, Map<String, String> headers) throws RateLimitException, ApiKeyException, RuntimeException, IOException, InterruptedException {
         logger.debug("Sending GET request to: " + uri.toString());
 
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder();
@@ -50,9 +67,15 @@ public class NetworkService {
         if (response.statusCode() >= 200 && response.statusCode() < 300) {
             logger.debug("Request to " + uri + " was successful");
             return response.body();
+        } else if (response.statusCode() == 401) {
+            logger.error(API_KEY_ERROR_MESSAGE);
+            throw new ApiKeyException(API_KEY_ERROR_MESSAGE);
+        } else if (response.statusCode() == 429) {
+            logger.error(RATE_LIMIT_ERROR_MESSAGE);
+            throw new RateLimitException(RATE_LIMIT_ERROR_MESSAGE);
         } else {
-            logger.error("Request to " + uri + " failed with status code: " + response.statusCode() + " and body: " + response.body());
-            throw new Exception("HTTP request failed with status code: " + response.statusCode() + " and body: " + response.body());
+            logger.error(String.format(OTHER_ERROR_MESSAGE, uri, response.statusCode(), response.body()));
+            throw new RuntimeException(String.format(OTHER_ERROR_MESSAGE, uri, response.statusCode(), response.body()));
         }
     }
 }
