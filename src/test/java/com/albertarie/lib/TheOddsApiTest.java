@@ -40,7 +40,7 @@ public class TheOddsApiTest {
     }
 
     /**
-     * Test case for the {@link TheOddsApi#getSports(boolean)} method.
+     * Test case for the {@link TheOddsApi#getSports(Boolean)} method.
      * 
      * Verifies that the method returns the expected list of sports in the current season.
      */
@@ -78,7 +78,7 @@ public class TheOddsApiTest {
     }
 
     /**
-     * Test case for the {@link TheOddsApi#getOdds(Sport, List, List, DateFormat, OddsFormat, List, List, LocalDateTime, LocalDateTime)} method.
+     * Test case for the {@link TheOddsApi#getOdds(com.albertarie.lib.url.Sport, List, List, DateFormat, OddsFormat, List, List, LocalDateTime, LocalDateTime)} method.
      * 
      * Verifies that the method returns the expected list of odds based on the provided parameters.
      * 
